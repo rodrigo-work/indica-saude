@@ -1,0 +1,110 @@
+/* This layer is by next-forge */
+@layer base {
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    @apply border-border;
+  }
+  * {
+    @apply min-w-0;
+  }
+  html {
+    text-rendering: optimizelegibility;
+  }
+  body {
+    @apply min-h-dvh;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-muted-foreground;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+/* Fix Fumadocs theme toggle icons */
+[data-theme-toggle] svg {
+  @apply fill-none;
+}
+
+:root {
+  --fd-page-width: 100vw;
+}
+
+@layer base {
+  article h1,
+  article h2,
+  article h3 {
+    @apply tracking-tight font-semibold!;
+  }
+
+  .home {
+    --fd-nav-height: 64px;
+  }
+
+  /* Hide the sidebar on the landing page on desktop */
+  .home #nd-docs-layout #nd-sidebar {
+    @apply md:hidden!;
+  }
+
+  .home #nd-docs-layout {
+    @apply pl-0!;
+  }
+
+  .home #nd-subnav > div:last-child {
+    @apply hidden!;
+  }
+
+  #nd-sidebar {
+    @apply bg-transparent! pt-6!;
+  }
+
+  #nd-page {
+    @apply max-w-none! } #nd-page > article { @apply container max-w-4xl mx-auto;
+  }
+
+  #nd-subnav > div {
+    @apply border-b-0!;
+  }
+
+  #nd-sidebar [class*="empty:hidden"] {
+    @apply hidden!;
+  }
+
+  .prose table code {
+    @apply whitespace-nowrap!;
+  }
+}
+
+/* start - custom */
+
+html {
+  /* @apply scroll-smooth; */
+}
+
+#nd-subnav > div:first-child {
+  /* background-color: aqua; */
+  opacity: 0.8;
+
+  padding: ;
+
+  /* border-bottom: 1px solid #000; */
+  /* min-width: 100%; */
+  /* padding: -50px 0; */
+}
+
+#nd-subnav {
+  /* background-color: white; */
+  border-bottom: 1px solid #ccc;
+}
+
+.home,
+#nd-docs-layout {
+  /* background-color: aqua; */
+} /* #nd-subnav > div > div {
+	width: 100%;
+	background-color: aqua;
+} */

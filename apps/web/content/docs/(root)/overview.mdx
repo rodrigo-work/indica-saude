@@ -1,0 +1,28 @@
+---
+title: Overview
+description: What is Indica Saúde and how do I get started?
+---
+
+import { env } from './../../../src/env';
+
+**Indica Saúde** is a production-grade [Turborepo](https://turborepo.com) template for [Next.js](https://nextjs.org/) apps. It is designed to be a comprehensive starting point for new apps, providing a solid, opinionated foundation with a minimal amount of configuration.
+
+It is a culmination of my experience building web apps over the last decade and is designed to help you build your new SaaS app as thoroughly as possible, balancing speed and quality.
+
+## Demo
+
+We have a demo version of **Indica Saúde** that you can use to get a feel for the project!
+
+Here are the URLs:
+
+| Operating system                 | next-forge version | Node.js version | Notes                                                                            |
+| -------------------------------- | ------------------ | --------------- | -------------------------------------------------------------------------------- |
+| macOS Sequoia 15.0.1 (24A348)    | 2.14.3             | [20.12.2](https://nodejs.org/en/download/package-manager/macos-sequoia)        |                                                                                  |
+| Ubuntu 24.04 Arm64               | 2.14.3             | 20.18.0         |                                                                                  |
+| Fedora, Release 41               | 2.14.3             | 22.11.0         |                                                                                  |
+| Windows 11 Pro 24H2 (26100.2033) | 2.14.3             | 20.18.0         | Turborepo only supports specific architectures. `windows ia32` is not supported. |
+
+* <a href={env.NEXT_PUBLIC_WEB_URL} target='_blank'>Web</a>
+* <a href={env.NEXT_PUBLIC_APP_URL} target='_blank'>App</a>
+* <a href={env.NEXT_PUBLIC_API_URL} target='_blank'>API</a>
+* <a href={env.NEXT_PUBLIC_STORYBOOK_URL} target='_blank'>Storybook</a>

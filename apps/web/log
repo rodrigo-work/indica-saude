@@ -1,0 +1,6 @@
+Unused devDependencies
+* @types/react-dom
+* tailwindcss
+* tw-animate-css
+Missing dependencies
+* mdx: ./src/mdx-components.tsx

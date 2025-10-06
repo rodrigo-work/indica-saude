@@ -1,0 +1,6 @@
+{
+  "title": "Indica Saúde",
+  "description": "Um sistema de gestão de saúde que utiliza inteligência artificial para ajudar a melhorar a qualidade de vida dos pacientes.",
+  "pages": ["docs/(root)", "docs/apps", "docs/packages", "docs/cli"],
+  "root": true
+}

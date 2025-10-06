@@ -1,0 +1,13 @@
+{
+  "title": "Docs",
+  "description": "Documentation for Indica Saúde.",
+  "pages": [
+    "overview",
+    "introduction",
+    "---Setup---",
+    "../setup/prerequisites",
+    "../setup/installation",
+    "../setup/env"
+  ],
+  "root": true
+}

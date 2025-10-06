@@ -1,0 +1,6 @@
+{
+  "title": "Apps",
+  "description": "Apps documentation.",
+  "root": true,
+  "pages": ["api", "app", "email", "storybook", "studio", "web"]
+}

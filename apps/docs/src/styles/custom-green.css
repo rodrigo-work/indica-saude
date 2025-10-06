@@ -1,0 +1,40 @@
+/* Theme Green (base #A4E4D0 / #6EC4B6)
+/* start indica-saude - green */
+@theme {
+  --color-fd-background: hsl(155, 45%, 96%);
+  --color-fd-foreground: hsl(155, 25%, 10%);
+  --color-fd-muted: hsl(155, 45%, 94%);
+  --color-fd-muted-foreground: hsl(155, 10%, 35%);
+  --color-fd-popover: hsl(155, 45%, 98%);
+  --color-fd-popover-foreground: hsl(155, 25%, 15%);
+  --color-fd-card: hsl(155, 40%, 95%);
+  --color-fd-card-foreground: hsl(155, 25%, 10%);
+  --color-fd-border: hsla(155, 25%, 50%, 0.3);
+  --color-fd-primary: #6ec4b6;
+  --color-fd-primary-foreground: #ffffff;
+  --color-fd-secondary: #a4e4d0;
+  --color-fd-secondary-foreground: hsl(155, 30%, 10%);
+  --color-fd-accent: hsl(155, 35%, 75%);
+  --color-fd-accent-foreground: hsl(155, 25%, 15%);
+  --color-fd-ring: hsl(155, 30%, 50%);
+}
+
+.dark {
+  --color-fd-background: hsl(155, 25%, 7%);
+  --color-fd-foreground: hsl(155, 25%, 90%);
+  --color-fd-muted: hsl(155, 25%, 12%);
+  --color-fd-muted-foreground: hsla(155, 25%, 70%, 0.8);
+  --color-fd-popover: hsl(155, 25%, 10%);
+  --color-fd-popover-foreground: hsl(155, 25%, 85%);
+  --color-fd-card: hsl(155, 25%, 9%);
+  --color-fd-card-foreground: #a4e4d0;
+  --color-fd-border: hsla(155, 25%, 40%, 0.3);
+  --color-fd-primary: #a4e4d0;
+  --color-fd-primary-foreground: hsl(155, 25%, 10%);
+  --color-fd-secondary: #6ec4b6;
+  --color-fd-secondary-foreground: hsl(155, 30%, 90%);
+  --color-fd-accent: hsla(155, 40%, 45%, 0.3);
+  --color-fd-accent-foreground: #a4e4d0;
+  --color-fd-ring: hsl(155, 30%, 60%);
+}
+/* end indica-saude - green */

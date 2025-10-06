@@ -1,0 +1,80 @@
+{
+  "folders": [
+    {
+      "name": "indica-saude",
+      "path": "../"
+    },
+    {
+      "name": "packages",
+      "path": "../packages"
+    },
+    {
+      "name": "docs",
+      "path": "../apps/docs"
+    },
+
+    {
+      "name": "api",
+      "path": "../apps/api"
+    },
+    {
+      "name": "database",
+      "path": "../packages/database"
+    },
+    {
+      "name": "web",
+      "path": "../apps/web"
+    },
+    {
+      "name": "auth",
+      "path": "../packages/auth"
+    },
+    {
+      "name": "webApi - referrals",
+      "path": "../apps/web/src/app/api/(api)/referrals"
+    },
+    {
+      "name": "webFront - referrals",
+      "path": "../apps/web/src/app/dashboard/(indicators)/referrals"
+    }
+  ],
+  "settings": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "[javascript]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[css]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[graphql]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "typescript.tsdk": "../node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "emmet.showExpandedAbbreviation": "inMarkupAndStylesheetFilesOnly",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit"
+    },
+    "tailwindCSS.experimental.configFile": "../packages/ui/src/styles/globals.css",
+    "makefile.makefilePath": "./Makefile",
+    "liveServer.settings.multiRootWorkspaceName": "indica-saude"
+  }
+}

@@ -1,3 +1,29 @@
 {
-  "tailwindCSS.experimental.configFile": "packages/ui/src/styles/globals.css"
+  "locale": "pt-BR",
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "editor.inlineSuggest.enabled": true,
+  "tailwindCSS.lint.cssConflict": "warning",
+  "tailwindCSS.suggestions": true,
+  "tailwindCSS.lint.recommendedVariantOrder": "warning",
+  "tailwindCSS.codeActions": true,
+  "codeium.enable": true,
+  "codeium.chat.enabled": true,
+  "biome.validate": true,
+  "biome.requireConfig": true,
+  "docker.languageserver.formatter.ignoreMultilineInstructions": false,
+  "files.exclude": {
+    "**/.turbo": false,
+    "**/node_modules": false
+  },
+  "typescript.tsdk": "../node_modules/typescript/lib",
+  "tailwindCSS.experimental.configFile": "../packages/ui/src/styles/globals.css",
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
 }

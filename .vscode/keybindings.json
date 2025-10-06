@@ -1,0 +1,16 @@
+[
+  {
+    "key": "ctrl+i",
+    "command": "codeium.chat.open",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+alt+l",
+    "command": "biome.fixAllProblems",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+a+1",
+    "command": "workbench.action.tasks.build"
+  }
+]

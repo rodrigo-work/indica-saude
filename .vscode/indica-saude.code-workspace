@@ -1,0 +1,80 @@
+{
+  "folders": [
+    {
+      "name": "indica-saude",
+      "path": ".."
+    },
+    {
+      "name": "mdx",
+      "path": "../apps/docs/content"
+    },
+    {
+      "name": "packages",
+      "path": "../packages"
+    },
+    {
+      "name": "app",
+      "path": "../apps/app"
+    },
+    {
+      "name": "api",
+      "path": "../apps/api"
+    },
+    {
+      "name": "email",
+      "path": "../apps/email"
+    },
+    {
+      "name": "web",
+      "path": "../apps/web"
+    },
+  ],
+  "settings": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "trae.chatLanguage": "auto",
+    "trae.tab.enableRename": true,
+    "trae.tab.enableAutoImport": true,
+    "trae.enableInlineCommand": true,
+    "trae.enableCodelens": {
+      "enableInlineDocumentation": true,
+      "enableInlineExplain": true
+    },
+    "editor.inlineSuggest.enabled": true,
+    "tailwindCSS.lint.cssConflict": "warning",
+    "tailwindCSS.suggestions": true,
+    "tailwindCSS.lint.recommendedVariantOrder": "warning",
+    "tailwindCSS.codeActions": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "files.exclude": {
+      "**/.turbo": false,
+      "**/node_modules": false
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[css]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[graphql]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit",
+      "source.validate.biome": "explicit",
+    },
+    "emmet.showExpandedAbbreviation": "inMarkupAndStylesheetFilesOnly",
+    "tailwindCSS.experimental.configFile": "../packages/ui/src/styles/globals.css",
+    "trae.tab.cue": true
+  }
+}

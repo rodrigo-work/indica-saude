@@ -1,0 +1,6 @@
+{
+  "title": "CLI",
+  "description": "The CLI tool for docs automation",
+  "root": true,
+  "icon": "Terminal"
+}

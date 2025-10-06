@@ -1,0 +1,44 @@
+{
+  "name": "docs",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev --turbopack --port 3002",
+    "start": "next start",
+    "postinstall": "fumadocs-mdx",
+    "lint": "eslint",
+    "clean": "git clean -xdf .cache .turbo .next .source dist node_modules",
+    "check-types": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@openlab/vercel-netlify-cms-github": "^1.1.1",
+    "@t3-oss/env-nextjs": "^0.13.8",
+    "@workspace/next-config": "workspace:*",
+    "@workspace/seo": "workspace:*",
+    "fumadocs-core": "15.8.4",
+    "fumadocs-mdx": "12.0.3",
+    "fumadocs-ui": "15.8.4",
+    "lucide-react": "^0.475.0",
+    "mermaid": "^11.12.0",
+    "next": "^15.4.5",
+    "next-themes": "^0.4.6",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4.1.14",
+    "@types/mdx": "^2.0.13",
+    "@types/node": "^20.19.9",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.4",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.14",
+    "typescript": "^5.9.2"
+  }
+}

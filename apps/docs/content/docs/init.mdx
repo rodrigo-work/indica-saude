@@ -1,0 +1,230 @@
+---
+title: Init
+description: Components
+---
+
+# Visão Geral
+
+Plano de arquitetura para o *Aplicativo de Encaminhamento e Gestão de Comissões* — monorepo em TypeScript com foco em escalabilidade, segurança e observabilidade. Suporta Web (Next.js) e Mobile (React Native/Expo) e microserviços iniciando em monorepo.
+
+---
+
+# Resumo executivo
+
+* Monorepo com Turborepo.
+* Front-ends: Next.js (web) + Expo (React Native) para mobile.
+* Backend: microserviços em Node.js + TypeScript (iniciar com 3 services: Auth, Referrals/Appointment/Finance, Payments).
+* Banco primário: PostgreSQL (relacional para consistência financeira). Logs e docs/eventos: MongoDB (opcional). Cache / filas: Redis + BullMQ.
+* Autenticação: Cognito (ou Auth0) / JWT + refresh tokens; roles: INDICADOR, PROFISSIONAL, FONTE_PAGADORA, ADMIN.
+* Pagamentos: integração com provedores (cartão/boletos/PIX). Serviço de pagamentos isolado.
+* Mensageria/Eventos: arquitetura baseada em eventos (event bus via Redis streams ou Kafka).
+* Notificações: serviço de notificações (push via Expo/FCM/APNs, e-mail via SendGrid/Mailgun).
+* Observabilidade: Prometheus + Grafana, logs centralizados com Elastic Stack or Loki, alertas via Grafana Alerting.
+* CI/CD: GitHub Actions / GitLab CI com pipelines para Build/Test/Deploy em ambientes (dev/staging/prod). Deploy em containers (ECS Fargate / EKS / DigitalOcean App Platform).
+* Segurança e LGPD: criptografia at-rest (db), in-transit (TLS), consentimento e logs de acesso, políticas de retenção e anonimização.
+
+---
+
+# Diagramas (texto)
+
+**Fluxo principal (encaminhamento)**
+
+1. Indicador submete formulário (Web/Mobile) -> API Gateway -> Service de Referrals cria `Referral` (status: enviado).
+2. Notificação enviada ao Profissional (push + in-app).
+3. Profissional agenda/realiza atendimento -> registra `Appointment` (status atualizado).
+4. Ao marcar como concluído, o serviço de Referrals emite evento `AppointmentCompleted`.
+5. Serviço Financeiro valida pagamento -> `Payment` registrado (pendente/confirmado).
+6. Quando pagamento confirmado, serviço Financeiro calcula comissão e emite `CommissionReady` para a Fonte Pagadora validar e liberar o pagamento da comissão.
+7. Comissões liberadas -> evento `CommissionPaid` -> saldo do Indicador é atualizado e notificação enviada.
+
+---
+
+# Domínios / Serviços sugeridos
+
+* **api-gateway**: roteamento, rate-limiting, autenticação inicial (JWT verification middleware). (Next API Routes podem servir BFF para web.)
+* **auth-service**: integração com Cognito / gerenciamento de sessões, emissão/validação de JWT, endpoints de login/refresh/logout, roles/permissions.
+* **referral-service**: CRUD de encaminhamentos, pacientes, lista de pacientes encaminhados por indicador, busca e filtros.
+* **appointment-service**: agenda, integração com calendar (opcional Google Calendar), reservar horários, conflitos, notificações.
+* **finance-service**: preços, pagamentos, reconciliação, cálculo de comissões, relatórios financeiros.
+* **payment-service**: integração com gateways (Stripe, gateway local para PIX/BOLETO), webhooks necessários, segurança de PCI (manter tokens, nunca armazenar full card data).
+* **notifications-service**: push, e-mail, SMS (se necessário).
+* **reporting-service** (ou BI): geração de relatórios, agregações, export CSV/XLSX.
+* **monitoring/ops**: Grafana dashboards, Prometheus exporters, alerting rules.
+
+---
+
+# Modelo de dados (exemplo Prisma)
+
+```prisma
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role { INDICADOR PROFISSIONAL FONTE_PAGADORA ADMIN }
+
+model Patient {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String?
+  dob       DateTime?
+  createdBy String   // id do indicador que cadastrou (opcional)
+  createdAt DateTime @default(now())
+}
+
+model Referral {
+  id            String   @id @default(cuid())
+  indicatorId   String
+  professionalId String
+  patientId     String
+  status        ReferralStatus @default(PENDING)
+  createdAt     DateTime @default(now())
+}
+
+enum ReferralStatus { PENDING SCHEDULED DONE CANCELED }
+
+model Appointment {
+  id           String   @id @default(cuid())
+  referralId   String   @unique
+  scheduledAt  DateTime
+  status       AppointmentStatus
+  notes        String?
+  createdAt    DateTime @default(now())
+}
+
+enum AppointmentStatus { SCHEDULED COMPLETED NO_SHOW CANCELED }
+
+model Payment {
+  id           String   @id @default(cuid())
+  appointmentId String
+  amount       Decimal
+  currency     String  @default("BRL")
+  status       PaymentStatus
+  providerRef  String? // id do gateway
+  paidAt       DateTime?
+}
+
+enum PaymentStatus { PENDING CONFIRMED FAILED }
+
+model Commission {
+  id            String   @id @default(cuid())
+  referralId    String
+  amount        Decimal
+  percentage    Float?
+  status        CommissionStatus
+  paidAt        DateTime?
+}
+
+enum CommissionStatus { DUE READY_PAID }
+```
+
+---
+
+# Cálculo de comissões
+
+* Regras flexíveis: porcentagem sobre a consulta ou valor fixo.
+* Armazenar versão da regra no momento do pagamento (audit trail).
+* Pipeline: quando `Payment` confirmado -> finance-service executa `calculateCommission(payment)` -> grava `Commission` com status `READY` -> notifica Fonte Pagadora para autorizar pagamento -> ao autorizar, marca `Commission.paidAt`.
+
+---
+
+# Segurança & LGPD
+
+* Dados pessoais: minimizar campos, consentimento explícito, endpoint para exportar/excluir dados (GDPR/LGPD).
+* Logs de acesso e consentimento.
+* Criptografia em trânsito (HTTPS/TLS) e at-rest (DB encryption where supported).
+* Roles/permissions estritas e RBAC no auth-service.
+* Auditoria de alterações financeiras e eventos.
+
+---
+
+# Observabilidade e monitoramento
+
+* Métricas: uso de Prometheus exporters e dashboards Grafana: requests/s, latência, erro 5xx, jobs fila (BullMQ) backlog, sucesso de webhooks.
+* Logs: centralizar com Loki/Elastic + trace único (OpenTelemetry) para requests cross-services.
+* Tracing distribuído: OpenTelemetry + Jaeger.
+* Alertas: pagamentos com falhas repetidas, filas longas, latência alta.
+
+---
+
+# CI/CD e Infra
+
+* Monorepo pipelines (GitHub Actions): lint -> tests -> build -> canary deploy -> promote.
+* IaC: Terraform para infraestrutura (VPC, RDS, EKS/ECS, S3 buckets, Secrets Manager).
+* Deploy: containers Docker; considerar Fargate para reduzir overhead operacional.
+
+---
+
+# Estrutura inicial do monorepo
+
+```
+/ (monorepo)
+  /apps
+    /web           # Next.js (BFF + admin dashboards)
+    /mobile        # Expo app
+  /services
+    /auth-service
+    /referral-service
+    /appointment-service
+    /finance-service
+    /payment-service
+    /notification-service
+  /packages
+    /ui            # componentes compartilhados
+    /lib           # utilitários, types, prisma client
+    /config        # env schemas, shared types
+  /infra
+    /terraform
+    /k8s
+  /scripts
+  turbo.json
+  package.json
+```
+
+---
+
+# Endpoints principais (exemplos)
+
+* POST /v1/referrals -> criar encaminhamento (indicador)
+* GET /v1/referrals?indicatorId= -> lista do indicador
+* POST /v1/appointments -> profissional agenda/atualiza
+* POST /v1/payments/webhook -> endpoint para receber status do gateway
+* GET /v1/commissions?indicatorId= -> extrato de comissões
+* POST /v1/auth/login, /v1/auth/refresh
+
+---
+
+# Estratégia incremental de entrega (MVP)
+
+1. Infra minimal: Postgres RDS, Redis, deploy container simples (staging).
+2. Implementar Auth + Referral service + basic Web app (indicador cria encaminhamento).
+3. Implementar Appointment flow e notificações básicas (expo push / in-app).
+4. Implementar Payment integration com webhooks e cálculo de comissão simples.
+5. Relatórios e ajustes de segurança (LGPD), observabilidade.
+
+---
+
+# Recomendações técnicas rápidas
+
+* Use Prisma + migrations para Postgres.
+* BullMQ sobre Redis para filas e retries de webhooks.
+* Events via Redis Streams (simples) ou Kafka (se alta escala futura).
+* Isolar segredos em Secrets Manager / Parameter Store.
+* Testes: unitários + integração para fluxos financeiros e webhooks.
+
+---
+
+# Próximos passos que eu posso fazer agora
+
+* Gerar diagrama mais detalhado (mermaid) para cada fluxo.
+* Gerar esqueleto de monorepo (turbo + apps + serviços) com scripts `npm` e `Dockerfile` base.
+* Escrever modelos Prisma completos e migrations iniciais.
+* Criar um checklist de segurança e LGPD para o time.
+
+---
+
+*Se quiser, já crio o esqueleto do monorepo com arquivos iniciais (package.json, turbo.json, Dockerfiles e um service mínimo de auth) — me diz qual item quer que eu gere primeiro e eu já preparo.*

@@ -1,0 +1,62 @@
+{
+  "folders": [
+    {
+      "name": "indica-saude",
+      "path": ".."
+    },
+    {
+      "name": "mdx",
+      "path": "../apps/docs/content"
+    },
+    {
+      "name": "api",
+      "path": "../apps/api"
+    },
+    {
+      "name": "app",
+      "path": "../apps/app"
+    },
+    {
+      "name": "docs",
+      "path": "../apps/docs"
+    }
+  ],
+  "settings": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "[javascript]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[css]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[graphql]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "typescript.tsdk": "../node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "emmet.showExpandedAbbreviation": "inMarkupAndStylesheetFilesOnly",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit"
+    },
+    "tailwindCSS.experimental.configFile": "../packages/ui/src/styles/globals.css",
+    "liveServer.settings.multiRootWorkspaceName": "indica-saude"
+  }
+}

@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+echo "🚀 Rodando commitlint..."
+npx commitlint --edit "$1"
+
+echo "✅ Tudo certo! Commit permitido."
+
+exit 0

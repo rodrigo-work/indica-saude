@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+
+echo "🔍 Executando Biome nos arquivos alterados..."
+
+# Garante que o commit falha se algo der errado
+pnpm lint-staged || {
+  echo "❌ Erros detectados pelo Biome. Corrija antes de commitar."
+  exit 1
+}
+
+
+# echo "🔍 Rodando Biome antes do commit..."
+# pnpm biome check --write --unsafe
+
+# pnpm biome check || {
+#   echo "❌ O Biome encontrou erros. Corrija antes de commitar."
+#   exit 0
+# }
+
+# echo "🧪 Verificando tipos TypeScript..."
+# npx tsc --noEmit
+
+# echo "🚀 Rodando lint do Turborepo..."
+# pnpm run lint --filter=...
+
+echo "✅ Tudo formatado e verificado com sucesso!"
+
+exit 0

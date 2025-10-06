@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Estilo Vercel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-6xl mx-auto">
+    <!-- Botões de alternância -->
+    <div class="flex justify-end mb-4 gap-2">
+      <button
+        id="gridBtn"
+        class="p-2 border rounded bg-gray-200 hover:bg-gray-300"
+        aria-label="Grid View"
+      >
+        🔲
+      </button>
+      <button
+        id="listBtn"
+        class="p-2 border rounded hover:bg-gray-200"
+        aria-label="List View"
+      >
+        📋
+      </button>
+    </div>
+
+    <!-- Container principal onde a view será injetada -->
+    <div id="projectContainer"></div>
+  </div>
+
+  <script>
+    // Simula dados de projeto
+    const projects = [
+      { id: 1, name: "Projeto A", description: "Descrição do projeto A" },
+      { id: 2, name: "Projeto B", description: "Descrição do projeto B" },
+      { id: 3, name: "Projeto C", description: "Descrição do projeto C" },
+      { id: 4, name: "Projeto D", description: "Descrição do projeto D" },
+    ];
+
+    const container = document.getElementById("projectContainer");
+    const gridBtn = document.getElementById("gridBtn");
+    const listBtn = document.getElementById("listBtn");
+
+    function renderGridView() {
+      container.innerHTML = `
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          ${projects
+            .map(
+              (p) => `
+            <div class="bg-white border rounded p-4 shadow hover:shadow-md transition">
+              <h3 class="text-lg font-semibold">${p.name}</h3>
+              <p class="text-sm text-gray-600">${p.description}</p>
+            </div>
+          `
+            )
+            .join("")}
+        </div>
+      `;
+
+      gridBtn.classList.add("bg-gray-200");
+      listBtn.classList.remove("bg-gray-200");
+    }
+
+    function renderListView() {
+      container.innerHTML = `
+        <ul class="bg-white border rounded divide-y">
+          ${projects
+            .map(
+              (p) => `
+            <li class="p-4 flex justify-between items-center hover:bg-gray-50 transition">
+              <div>
+                <h3 class="text-base font-medium">${p.name}</h3>
+                <p class="text-sm text-gray-500">${p.description}</p>
+              </div>
+              <button class="text-blue-600 text-sm hover:underline">Ver</button>
+            </li>
+          `
+            )
+            .join("")}
+        </ul>
+      `;
+
+      listBtn.classList.add("bg-gray-200");
+      gridBtn.classList.remove("bg-gray-200");
+    }
+
+    // Eventos de clique
+    gridBtn.addEventListener("click", renderGridView);
+    listBtn.addEventListener("click", renderListView);
+
+    // Inicializa com grid view
+    renderGridView();
+  </script>
+</body>
+</html>

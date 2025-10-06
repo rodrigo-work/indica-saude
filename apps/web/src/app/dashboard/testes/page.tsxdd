@@ -1,0 +1,63 @@
+import { IconPlus } from '@tabler/icons-react'
+import { Button, buttonVariants } from '@workspace/ui/components/button'
+import { Separator } from '@workspace/ui/components/separator'
+import { cn } from '@workspace/ui/lib/utils'
+import Link from 'next/link'
+import { Suspense } from 'react'
+import { Heading } from '@/components/heading'
+import PageContainer from '@/components/layout/page-container'
+import ResponsiveList from './ResponsiveList'
+
+export default function Page() {
+  return (
+    <PageContainer scrollable={true}>
+      <ResponsiveList />
+      <div className="flex flex-1 flex-col space-y-4">
+        <div className="flex items-start justify-between">
+          <Heading
+            description="Manage professionals (Server side table functionalities.)"
+            title="Professional"
+          />
+          <Link className={cn(buttonVariants(), 'text-xs md:text-sm')} href="#">
+            <IconPlus className="mr-2 h-4 w-4" /> Add New
+          </Link>
+        </div>
+        <Separator />
+        <Suspense
+        // key={key}
+        // fallback={<DataTableSkeleton columnCount={5} filterCount={2} rowCount={8} />}
+        >
+          <h4>1. Grade de Cards Responsiva (Cards Grid Layout)</h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+            <div className="bg-white shadow-md rounded-lg p-4 hover:shadow-xl transition">
+              <h3 className="text-lg font-semibold mb-2">Item 1</h3>
+              <p className="text-gray-600 mb-4">Descrição do item listado.</p>
+              <Button className="text-indigo-600 hover:underline">Ver mais</Button>
+            </div>
+
+            {/* <!-- Repetir para mais itens --> */}
+          </div>
+          <Separator />
+          <h4>Lista com Ações (List with Actions)</h4>
+          <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <ul className="divide-y divide-gray-200">
+              <li className="flex items-center justify-between p-4 hover:bg-gray-50 transition">
+                <div>
+                  <p className="text-sm font-medium text-gray-900">Item da Lista</p>
+                  <p className="text-sm text-gray-500">Descrição breve</p>
+                </div>
+                <div className="flex gap-2">
+                  <Button className="text-blue-600 hover:underline text-sm">Editar</Button>
+                  <Button className="text-red-600 hover:underline text-sm">Excluir</Button>
+                </div>
+              </li>
+
+              {/* <!-- Repetir para mais itens --> */}
+            </ul>
+          </div>
+          <Separator />
+        </Suspense>
+      </div>
+    </PageContainer>
+  )
+}

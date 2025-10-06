@@ -4,27 +4,46 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack --port 3000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "typecheck": "tsc --noEmit"
+    "clean": "git clean -xdf .cache .turbo .next dist node_modules",
+    "check-types": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@radix-ui/react-icons": "^1.3.2",
+    "@t3-oss/env-nextjs": "^0.13.8",
+    "@tabler/icons-react": "^3.35.0",
+    "@tanstack/react-router": "^1.132.47",
+    "@tanstack/react-table": "^8.21.3",
+    "@workspace/database": "workspace:*",
+    "@workspace/internationalization": "workspace:*",
+    "@workspace/next-config": "workspace:*",
+    "@workspace/seo": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "lucide-react": "^0.475.0",
-    "next": "^15.4.5",
+    "@workspace/auth": "workspace:*",
+    "jose": "^6.1.0",
+    "lucide-react": "^0.545.0",
+    "next": "^15.5.5",
     "next-themes": "^0.4.6",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "nextjs-toploader": "^3.9.17",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-hook-form": "^7.65.0",
+    "recharts": "2.15.4",
+    "sonner": "^2.0.7",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@types/node": "^20.19.9",
-    "@types/react": "^19.1.9",
-    "@types/react-dom": "^19.1.7",
-    "@workspace/eslint-config": "workspace:^",
+    "@faker-js/faker": "^10.1.0",
+    "@types/node": "^24.7.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   }
 }

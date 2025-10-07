@@ -1,0 +1,155 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../generated/client"
+}
+
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+enum Role {
+  ADMIN
+  INDICATOR
+  PROFESSIONAL
+}
+
+enum ReferralStatus {
+  PENDING
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+enum AttendanceStatus {
+  SCHEDULED
+  COMPLETED
+  NO_SHOW
+  CANCELLED
+}
+
+enum CommissionStatus {
+  PENDING
+  APPROVED
+  PAID
+}
+
+enum CommissionType {
+  PERCENTAGE
+  FIXED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+model User {
+  id          String       @id @default(uuid())
+  name        String
+  email       String       @unique
+  password    String
+  role        Role
+  active      Boolean      @default(true)
+
+  // Relations
+  referralsIndicator   Referral[]   @relation("IndicatorReferrals")
+  referralsProfessional Referral[]   @relation("ProfessionalReferrals")
+  attendances          Attendance[] @relation("ProfessionalAttendances")
+  commissions          Commission[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Referral {
+  id              String           @id @default(uuid())
+
+  indicator       User             @relation("IndicatorReferrals", fields: [indicatorId], references: [id])
+  indicatorId     String
+
+  professional    User             @relation("ProfessionalReferrals", fields: [professionalId], references: [id])
+  professionalId  String
+
+  patientName     String
+  patientEmail    String?
+  patientPhone    String?
+  reason          String
+  specialty       String
+  notes           String?
+  status          ReferralStatus   @default(PENDING)
+
+  scheduledDate   DateTime
+  scheduledTime   String
+
+  attendances     Attendance[]
+  payments        Payment[]
+  commissions     Commission[]
+
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([indicatorId])
+  @@index([professionalId])
+}
+
+model Attendance {
+  id             String          @id @default(uuid())
+
+  referral       Referral        @relation(fields: [referralId], references: [id])
+  referralId     String
+
+  professional   User            @relation("ProfessionalAttendances", fields: [professionalId], references: [id])
+  professionalId String
+
+  date           DateTime
+  startTime      String
+  endTime        String
+  status         AttendanceStatus @default(SCHEDULED)
+  notes          String?
+  attachments    String?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([referralId])
+  @@index([professionalId])
+}
+
+model Payment {
+  id              String        @id @default(uuid())
+  referral        Referral      @relation(fields: [referralId], references: [id])
+  referralId      String
+
+  totalAmount     Float
+  commissionType  CommissionType
+  commissionValue Float
+  status          PaymentStatus @default(PENDING)
+  paymentDate     DateTime?
+  notes           String?
+
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([referralId])
+}
+
+model Commission {
+  id          String          @id @default(uuid())
+
+  indicator   User            @relation(fields: [indicatorId], references: [id])
+  indicatorId String
+
+  referral    Referral        @relation(fields: [referralId], references: [id])
+  referralId  String
+
+  amount      Float
+  status      CommissionStatus @default(PENDING)
+  generatedAt DateTime         @default(now())
+  notes       String?
+
+  @@index([indicatorId])
+  @@index([referralId])
+}

@@ -1,0 +1,41 @@
+{
+  "name": "@workspace/database",
+  "version": "0.0.1",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "analyze": "prisma generate --no-engine --no-hints --schema=./prisma/schema.prisma",
+    "build": "prisma generate --no-engine --no-hints --schema=./prisma/schema.prisma",
+    "demo": "npx prisma migrate reset --force  --schema=./prisma/schema.prisma",
+    "clean": "git clean -xdf .cache .turbo dist generated node_modules",
+    "check-types": "tsc --noEmit --emitDeclarationOnly false",
+    "generate:data": "tsx src/generate.ts",
+    "make": "make setup",
+    "migrate": "npx prisma migrate dev --schema=./prisma/schema.prisma",
+    "studio": "npx prisma studio --schema=./prisma/schema.prisma"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0",
+    "@prisma/adapter-neon": "6.4.1",
+    "@prisma/client": "6.4.1",
+
+    "@t3-oss/env-nextjs": "^0.13.4",
+    "server-only": "^0.0.1",
+    "undici": "^7.10.0",
+    "ws": "^8.18.2",
+    "zod": "^3.25.28"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.0.0",
+    "@types/node": "22.15.21",
+    "@types/ws": "^8.18.1",
+    "@workspace/typescript-config": "workspace:*",
+    "bufferutil": "^4.0.9",
+    "prisma": "6.4.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.8.3"
+  },
+  "prisma": {
+    "seed": "tsx ./scripts/seed.ts"
+  }
+}

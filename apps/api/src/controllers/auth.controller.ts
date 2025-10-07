@@ -1,0 +1,130 @@
+import type { Request, Response } from 'express'
+import { token } from 'morgan'
+import { CognitoService } from '../services/cognito.service.js'
+import { AbstractController } from './abstract.controller.js'
+
+export class AuthController extends AbstractController {
+  private readonly cognitoService: CognitoService
+
+  constructor() {
+    super()
+    this.cognitoService = new CognitoService()
+  }
+
+  public async signIn(req: Request, res: Response) {
+    const { email, password } = req.body
+
+    try {
+      const data = await this.cognitoService.signIn(email, password)
+      this.responseSuccess(res, data.AuthenticationResult)
+    } catch (error) {
+      console.error(error)
+      this.responseError(res, error, req)
+    }
+  }
+
+  public async signUp(req: Request, res: Response) {
+    const { firstName, lastName, email, password } = req.body
+
+    try {
+      const data = await this.cognitoService.signUp(firstName, lastName, email, password)
+      this.responseSuccess(res, data, 201) // 201 Created
+    } catch (error) {
+      this.responseError(res, error, req)
+    }
+  }
+
+  public async signOut(req: Request, res: Response) {
+    try {
+      const authorizationHeader = req.headers.authorization
+
+      const token = authorizationHeader?.split(' ')[1] || ''
+
+      await this.cognitoService.signOut(token)
+      this.responseSuccess(res, 'User signed out', 200)
+    } catch (error) {
+      console.error(error)
+      this.responseError(res, error, req)
+    }
+  }
+
+  // // Registrar um novo usuário
+  // public async signUp(req: Request, res: Response): Promise<void> {
+  //   const { email, password, firstName, lastName } = req.body
+
+  //   try {
+  //     await this.cognitoService.signUp(email, password, firstName, lastName)
+  //     res.status(200).json({
+  //       message: 'Usuário registrado. Verifique seu e-mail para confirmação.'
+  //     })
+  //   } catch (error) {
+  //     res.status(400).json({ error: (error as Error).message })
+  //   }
+  // }
+
+  // // Confirmar o registro do usuário
+  // public async confirmSignUp(req: Request, res: Response): Promise<void> {
+  //   const { email, confirmationCode } = req.body
+
+  //   try {
+  //     await this.cognitoService.confirmSignUp(email, confirmationCode)
+  //     res.status(200).json({ message: 'Usuário confirmado com sucesso.' })
+  //   } catch (error) {
+  //     res.status(400).json({ error: (error as Error).message })
+  //   }
+  // }
+
+  // // Iniciar recuperação de senha
+  // public async forgotPassword(req: Request, res: Response): Promise<void> {
+  //   const { email } = req.body
+
+  //   try {
+  //     await this.cognitoService.forgotPassword(email)
+  //     res.status(200).json({ message: 'E-mail de recuperação enviado.' })
+  //   } catch (error) {
+  //     res.status(400).json({ error: (error as Error).message })
+  //   }
+  // }
+
+  // // Confirmar a nova senha após a recuperação
+  // public async resetPassword(req: Request, res: Response): Promise<void> {
+  //   const { email, confirmationCode, newPassword } = req.body
+
+  //   try {
+  //     await this.cognitoService.confirmPassword(
+  //       email,
+  //       confirmationCode,
+  //       newPassword
+  //     )
+  //     res.status(200).json({ message: 'Senha alterada com sucesso.' })
+  //   } catch (error) {
+  //     res.status(400).json({ error: (error as Error).message })
+  //   }
+  // }
+
+  // // Iniciar o processo de MFA
+  // public async mfa(req: Request, res: Response): Promise<void> {
+  //   const { email } = req.body
+
+  //   try {
+  //     await this.cognitoService.initiateMfa(email)
+  //     res
+  //       .status(200)
+  //       .json({ message: 'MFA iniciado. Siga as instruções para configurar.' })
+  //   } catch (error) {
+  //     res.status(400).json({ error: (error as Error).message })
+  //   }
+  // }
+
+  // // Verificar o código MFA
+  // public async verifyMfa(req: Request, res: Response): Promise<void> {
+  //   const { email, mfaCode } = req.body
+
+  //   try {
+  //     await this.cognitoService.verifyMfa(email, mfaCode)
+  //     res.status(200).json({ message: 'MFA verificado com sucesso.' })
+  //   } catch (error) {
+  //     res.status(400).json({ error: (error as Error).message })
+  //   }
+  // }
+}

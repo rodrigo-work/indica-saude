@@ -1,0 +1,66 @@
+services:
+  db:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: indica-saude
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - backend
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - backend
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: redis-commander
+    depends_on:
+      - redis
+    ports:
+      - "8081:8081"
+    environment:
+      # Define o host do Redis que ele vai acessar
+      - REDIS_HOSTS=local:redis:6379
+    networks:
+      - backend
+
+  app:
+    build:
+      context: .
+      dockerfile: ../apps/web/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./:/app
+
+
+volumes:
+  pg-data:
+  redis-data:
+
+networks:
+  backend:

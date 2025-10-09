@@ -5,11 +5,12 @@ title: teste
 description: teste
 ---
 teste
+
 # Referral MVP — Documentação
 
 > Documentação do projeto *referral-mvp* — explicação do sistema, fluxos, endpoints, diagramas (Mermaid), passos para rodar, testes e próximos passos.
 
----
+- - -
 
 ## 1. Visão Geral
 
@@ -22,7 +23,7 @@ Objetivos principais:
 * Expor API RESTful para frontend (Next.js/React) e possivelmente microservices.
 * Facilitar autenticação via JWT/Cognito (ou outro provedor).
 
----
+- - -
 
 ## 2. Principais entidades (modelo lógico)
 
@@ -62,7 +63,7 @@ erDiagram
     Professional ||--o{ Referral : "atende"
 ```
 
----
+- - -
 
 ## 3. Enumerações sugeridas
 
@@ -71,7 +72,7 @@ enum Role { ADMIN, INDICATOR, PROFESSIONAL }
 enum ReferralStatus { PENDING, SCHEDULED, COMPLETED }
 ```
 
----
+- - -
 
 ## 4. Endpoints principais (API REST)
 
@@ -123,7 +124,7 @@ Response `201`
 }
 ```
 
----
+- - -
 
 ## 5. Fluxos principais (Mermaid)
 
@@ -175,7 +176,7 @@ sequenceDiagram
   API-->>Client: 200 OK (data)
 ```
 
----
+- - -
 
 ## 6. Arquitetura recomendada
 
@@ -200,7 +201,7 @@ Notas:
 * Use filas (RabbitMQ / SQS) para tarefas que enviam notificações e criam eventos no calendário.
 * Use testes unitários e integração com Jest/Playwright.
 
----
+- - -
 
 ## 7. Configuração e execução local
 
@@ -236,7 +237,7 @@ pnpm dev
 pnpm test
 ```
 
----
+- - -
 
 ## 8. Observabilidade e monitoramento
 
@@ -245,7 +246,7 @@ pnpm test
 * Tracing — OpenTelemetry.
 * Alertas para filas atrasadas, erros 5xx, latência alta.
 
----
+- - -
 
 ## 9. Segurança
 
@@ -255,7 +256,7 @@ pnpm test
 * Armazenar refresh tokens com segurança (httpOnly cookies) ou em DB com expirations.
 * Proteção contra RBAC: checar `Role` antes de ações administrativas.
 
----
+- - -
 
 ## 10. Testes e QA
 
@@ -263,7 +264,7 @@ pnpm test
 * Integration tests para endpoints (supertest).
 * E2E para fluxos críticos (Playwright).
 
----
+- - -
 
 ## 11. Estrutura de pastas sugerida
 
@@ -281,7 +282,7 @@ pnpm test
   README.md
 ```
 
----
+- - -
 
 ## 12. CI/CD (sugestão)
 
@@ -292,18 +293,18 @@ pnpm test
   3. Build
   4. Deploy (staging -> production) usando Terraform/CloudFormation ou serverless deploy
 
----
+- - -
 
 ## 13. Checklist para MVP
 
-* [x] CRUD básico de referrals
-* [x] Autenticação (JWT)
-* [x] Listagem e filtros
-* [ ] Notificações (fila + serviço)
-* [ ] Integração calendar
-* [ ] Tests e cobertura >= 80%
+* CRUD básico de referrals
+* Autenticação (JWT)
+* Listagem e filtros
+* Notificações (fila + serviço)
+* Integração calendar
+* Tests e cobertura >= 80%
 
----
+- - -
 
 ## 14. Próximos passos e melhorias
 
@@ -312,7 +313,7 @@ pnpm test
 3. Painel administrativo (relatórios, métricas).
 4. Localização/Tradução (i18n).
 
----
+- - -
 
 ## 15. Referências rápidas
 
@@ -321,7 +322,7 @@ pnpm test
 * AWS SQS / RabbitMQ — filas
 * Cognito / Auth0 — provedor de auth
 
----
+- - -
 
 > Se quiser, eu posso:
 >

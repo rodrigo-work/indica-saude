@@ -1,0 +1,20 @@
+name: Auto-label on Push
+
+on:
+  push:
+    branches: ["develop"]
+    # types: [opened, synchronize]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Apply labels
+        uses: actions/labeler@v4
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: ".github/actions/labeler.yml" # Caminho para o arquivo de configuração

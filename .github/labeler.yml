@@ -1,0 +1,10 @@
+labeler:
+  - label: "pkg: turbo"
+    when:
+      isAnyFilePathMatch: '^packages\/turbo\/.*$'
+  - label: "pkg: ui"
+    when:
+      isAnyFilePathMatch: '^packages\/ui\/.*$'
+  - label: "pkg: turbo"
+    when:
+      isAnyFilePathMatch: '^packages\/turbo\/.*$'

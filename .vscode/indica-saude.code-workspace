@@ -5,10 +5,6 @@
       "path": ".."
     },
     {
-      "name": "mdx",
-      "path": "../apps/docs/content"
-    },
-    {
       "name": "api",
       "path": "../apps/api"
     },
@@ -17,8 +13,12 @@
       "path": "../apps/app"
     },
     {
-      "name": "docs",
-      "path": "../apps/docs"
+      "name": "web",
+      "path": "../apps/web"
+    },
+    {
+      "name": "content docs",
+      "path": "../apps/web/content"
     }
   ],
   "settings": {
@@ -51,12 +51,11 @@
     "typescript.enablePromptUseWorkspaceTsdk": true,
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true,
-    "emmet.showExpandedAbbreviation": "inMarkupAndStylesheetFilesOnly",
+    "emmet.showExpandedAbbreviation": "always",
     "editor.codeActionsOnSave": {
       "source.fixAll.biome": "explicit",
       "source.organizeImports.biome": "explicit"
     },
-    "tailwindCSS.experimental.configFile": "../packages/ui/src/styles/globals.css",
-    "liveServer.settings.multiRootWorkspaceName": "indica-saude"
+    "tailwindCSS.experimental.configFile": "../packages/ui/src/styles/globals.css"
   }
 }

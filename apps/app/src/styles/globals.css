@@ -1,0 +1,10 @@
+@import "@workspace/ui/globals.css";
+
+/* @import "./green.css"; */
+
+:root {
+  --scrollbar: oklch(0.97 0.02 160);
+  --scrollbar-thumb: oklch(0.9 0.04 160);
+  --scrollbar-thumb-hover: oklch(0.65 0.08 160);
+  --scrollbar-thumb-active: oklch(0.65 0.08 160);
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://openapi.vercel.sh/microfrontends.json",
+  "options": {
+    "localProxyPort": 3000
+  },
+  "applications": {
+    "app": {
+      "development": {
+        "fallback": "indica-saude-app.vercel.app"
+      }
+    },
+    "api": {
+      "development": {
+        "fallback": "indica-saude-api.vercel.app",
+        "local": "http://localhost:3001"
+      },
+      "packageName": "api",
+      "routing": [
+        {
+          "paths": ["/api/:path*"]
+        }
+      ]
+    }
+  }
+}

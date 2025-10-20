@@ -1,0 +1,20 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "dist/**"],
+      "env": [
+        "DATABASE_URL",
+        "JWT_SECRET",
+        "COGNITO_DOMAIN",
+        "COGNITO_CLIENT_ID",
+        "COGNITO_CLIENT_SECRET",
+        "COGNITO_REDIRECT_URI",
+        "COGNITO_JWKS_URL",
+        "COGNITO_AUDIENCE",
+        "COGNITO_ISSUER"
+      ]
+    }
+  }
+}

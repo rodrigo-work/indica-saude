@@ -1,0 +1,95 @@
+import '@/styles/globals.css'
+
+import { verifyIdToken } from '@workspace/auth'
+import { createMetadata } from '@workspace/seo/metadata'
+import { Toaster } from '@workspace/ui/components/sonner'
+import { cn } from '@workspace/ui/lib/utils'
+import type { Metadata, Viewport } from 'next'
+import { cookies } from 'next/headers'
+import NextTopLoader from 'nextjs-toploader'
+import Providers from '@/components/layout/providers'
+import ThemeProvider from '@/components/layout/ThemeToggle/theme-provider'
+import { settings } from '@/constants/data'
+import { UserProvider } from '@/contexts/UserContext'
+import { fontVariables } from '@/lib/fonts'
+import type { Profile } from '@/types/profile'
+
+const META_THEME_COLORS = {
+  light: '#ffffff',
+  dark: '#09090b'
+}
+
+export const metadata: Metadata = createMetadata({
+  title: 'Indica Saúde',
+  description: 'Indica Saúde, a digital health platform.'
+})
+
+export const viewport: Viewport = {
+  themeColor: META_THEME_COLORS.light
+}
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies()
+  const activeThemeValue = cookieStore.get('active_theme')?.value
+  const isScaled = activeThemeValue?.endsWith('-scaled')
+
+  const cookieIDP = cookieStore.get(settings.cookies.id_token)?.value || ''
+
+  let profile: Pick<Profile, 'name' | 'email'> | null
+
+  try {
+    const payload = await verifyIdToken(cookieIDP)
+    profile = {
+      // id: payload.sub,
+      name: payload.name,
+      email: payload.email
+      // role: payload['custom:role'],
+      // picture: payload.picture
+    }
+  } catch {
+    profile = null
+  }
+
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: No need to escape
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.theme === 'dark' || ((!('theme' in localStorage) || localStorage.theme === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.querySelector('meta[name="theme-color"]').setAttribute('content', '${META_THEME_COLORS.dark}')
+                }
+              } catch (_) {}
+            `
+          }}
+        />
+      </head>
+      <body
+        className={cn(
+          'overflow-hidden overscroll-none bg-background font-sans antialiased',
+          activeThemeValue ? `theme-${activeThemeValue}` : '',
+          isScaled ? 'theme-scaled' : '',
+          fontVariables
+        )}
+      >
+        <NextTopLoader color="var(--primary)" showSpinner={false} />
+        <UserProvider initialUser={profile}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            disableTransitionOnChange
+            enableColorScheme
+            enableSystem
+          >
+            <Providers activeThemeValue={activeThemeValue as string}>
+              {children}
+              <Toaster />
+            </Providers>
+          </ThemeProvider>
+        </UserProvider>
+      </body>
+    </html>
+  )
+}

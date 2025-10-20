@@ -1,0 +1,104 @@
+// import { withMicrofrontends } from '@vercel/microfrontends/next/config'
+// import createWithVercelToolbar from '@vercel/toolbar/plugins/next'
+import { config as baseConfig } from '@workspace/next-config'
+import type { NextConfig } from 'next'
+import { env } from '@/env'
+
+// const withVercelToolbar = createWithVercelToolbar()
+
+const transpilePackages = [
+  '@workspace/ui',
+  '@workspace/seo',
+  '@workspace/auth',
+  '@workspace/next-config',
+  '@workspace/internationalization',
+  '@workspace/eslint-config',
+  '@workspace/typescript-config'
+]
+
+// Base config
+const nextConfig: NextConfig = {
+  ...baseConfig,
+
+  reactStrictMode: true,
+
+  transpilePackages,
+
+  experimental: {
+    authInterrupts: true
+  },
+
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '/health(z)?',
+  //       destination: '/api/health',
+  //       permanent: false
+  //     },
+  //     {
+  //       source: '/legal/privacy(-policy)?',
+  //       destination: '/privacy',
+  //       permanent: false
+  //     }
+  //   ]
+  // },
+  // async headers() {
+  //   return [
+  //     {
+  //       source: '/(.*)',
+  //       headers: [
+  //         {
+  //           key: 'X-Content-Type-Options',
+  //           value: 'nosniff'
+  //         },
+  //         {
+  //           key: 'X-Frame-Options',
+  //           value: 'DENY'
+  //         },
+  //         {
+  //           key: 'Referrer-Policy',
+  //           value: 'strict-origin-when-cross-origin'
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       source: '/service-worker.js',
+  //       headers: [
+  //         {
+  //           key: 'Content-Type',
+  //           value: 'application/javascript; charset=utf-8'
+  //         },
+  //         {
+  //           key: 'Cache-Control',
+  //           value: 'no-cache, no-store, must-revalidate'
+  //         },
+  //         {
+  //           key: 'Content-Security-Policy',
+  //           value: "default-src 'self'; script-src 'self'"
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'iad.microlink.io'
+      }
+    ]
+  }
+}
+
+if (env.ANALYZE === 'true') {
+  // nextConfig = withAnalyzer(nextConfig)
+}
+
+// nextConfig = withLogging(nextConfig)
+// nextConfig = withVercelToolbar(nextConfig)
+
+export default nextConfig

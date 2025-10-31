@@ -1,0 +1,38 @@
+services:
+  docs:
+    container_name: docs
+    build:
+      context: .
+      dockerfile: ./apps/docs/Dockerfile
+    ports:
+      - "3004:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    networks:
+      - default
+
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    ports:
+      - "5001:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    networks:
+      - default
+
+volumes:
+  portainer_data:
+
+networks:
+  default:
+    driver: bridge
+    name: localhost

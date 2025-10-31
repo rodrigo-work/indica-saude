@@ -1,0 +1,93 @@
+{
+	"info": {
+		"_postman_id": "745627e9-1abd-4c1e-a88a-f1fdefa56a66",
+		"name": "Indica Saúde",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "24802500"
+	},
+	"item": [
+		{
+			"name": "referrals",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{access_token}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "{{host}}/referrals"
+			},
+			"response": []
+		},
+		{
+			"name": "sign-in",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Extrai o access token da resposta",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"access_token\", jsonData.AccessToken);",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"me+is+indicator@rodrigo3d.com\",\n    \"password\": \"123123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{host}}/auth/sign-in"
+			},
+			"response": []
+		},
+		{
+			"name": "me",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{host}}/referrals"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

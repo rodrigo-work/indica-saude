@@ -1,0 +1,86 @@
+# Projeto Base e Configuração Inicial
+Configurar o monorepo com Next.js, TypeScript, ESM, tsup, vitest e shadcn/ui. Adicionar configuração base de lint, prettier, aliases e estrutura de pastas.
+---
+# Configuração do Prisma ORM
+Criar schema inicial com relação entre usuários, encaminhamentos, pagamentos e atendimentos. Incluir seeds com 10 registros e relationMode = "prisma".
+---
+# Configuração do Redis Cache
+Adicionar Redis no projeto para cachear consultas frequentes (ex: referrals, payments).
+---
+# Configuração do Docker e CI/CD
+Criar Dockerfile, docker-compose.yml e pipeline no GitHub Actions para build e deploy automático.
+---
+# Integração com AWS Cognito
+Configurar Hosted UI, callback e persistência dos tokens (id_token, access_token, refresh_token) em cookies.
+---
+# Middleware de Autorização
+Criar middleware em TypeScript com a biblioteca jose para validar JWT e roles (indicador, profissional, admin).
+---
+# Controle de Acesso nas Rotas
+Proteger endpoints e páginas de acordo com o tipo de usuário.
+---
+# Logout e Refresh Token
+Implementar fluxo completo de logout e renovação automática de token.
+---
+# API – Referral (Encaminhamentos)
+Criar endpoints para criar, listar e atualizar encaminhamentos.
+---
+# API – Appointment (Atendimentos)
+Endpoints para agendar, listar e atualizar status de atendimentos.
+---
+# API – Payment (Pagamentos e Comissões)
+Endpoints para registrar pagamentos, calcular comissão e atualizar status financeiro.
+---
+# API – Users (Usuários)
+Endpoints para listar e editar dados dos usuários.
+---
+# API – Notification Service
+Endpoint de mock para notificações push (atendimento concluído, pagamento recebido, comissão liberada).
+---
+# Referral Form
+Formulário de encaminhamento de pacientes com validação e integração com API Referral.
+---
+# Appointment Form
+Formulário de agendamento e atualização de status de atendimentos.
+---
+# Payment Form
+Formulário para registro de pagamentos e cálculo automático de comissão.
+---
+# Dashboard – Indicador
+Exibir comissões pendentes, histórico e status de encaminhamentos.
+---
+# Dashboard – Profissional
+Visualizar agenda, atendimentos realizados e status de pagamento.
+---
+# Dashboard – Admin
+Visualizar todos os pagamentos, validar atendimentos e liberar comissões.
+---
+# Integração com Grafana e Prometheus
+Configurar métricas básicas de uptime, uso de CPU, memória e latência das APIs.
+---
+# Redis Cache Layer
+Adicionar camada de cache no Express para dados de consultas e pagamentos.
+---
+# Queue de Mensageria (Mock)
+Criar estrutura de mensageria (ex: RabbitMQ ou mock) para eventos de pagamento e comissão.
+---
+# Deploy Web (Vercel)
+Publicar aplicação Next.js e configurar environment variables (Cognito, Redis, API URL).
+---
+# Deploy Backend (Render ou Railway)
+Hospedar API Node.js + Prisma + PostgreSQL com persistência.
+---
+# Configuração do CI/CD
+Pipeline GitHub Actions com testes, lint, build e deploy automático.
+---
+# Documentação Técnica (README + Diagrama)
+Gerar documentação em Markdown com fluxos Mermaid e setup completo.
+---
+# Layout Base (shadcn/ui)
+Aplicar tema padrão e componentes consistentes entre dashboards e forms.
+---
+# Logotipo e Ícone (Indica Saúde)
+Implementar ícone “+” borrado com cores pastéis conforme identidade visual.
+---
+# Responsividade e Acessibilidade
+Garantir layout adaptável a mobile e desktop, com uso de semântica ARIA.

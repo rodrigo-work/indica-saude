@@ -1,0 +1,49 @@
+# -----------------------------
+# Etapa base: Node 22 Alpine
+# -----------------------------
+FROM node:22-alpine AS base
+
+# Define diretório de trabalho
+WORKDIR /app
+
+# Configura diretório global do PNPM
+ENV PNPM_HOME="/usr/local/share/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+ENV CI=true
+
+# Instala dependências do sistema
+RUN apk add --no-cache curl bash git openssl
+
+# Instala pnpm globalmente e define global-dir manualmente
+RUN npm install -g pnpm@latest \
+    && pnpm config set global-dir /usr/local/share/pnpm \
+    && pnpm install -g turbo@latest
+
+# Copiar apenas os manifests para aproveitar cache
+COPY pnpm-lock.yaml ./
+COPY package.json ./
+COPY turbo.json ./
+COPY pnpm-workspace.yaml ./
+
+# Copiar apenas os manifests dos pacotes (melhor cache)
+COPY apps ./apps
+COPY packages ./packages
+
+# Instala dependências do monorepo
+RUN pnpm install --frozen-lockfile
+
+# -----------------------------
+# Etapa dev (desenvolvimento)
+# -----------------------------
+# FROM base AS dev
+
+# WORKDIR /app
+
+# Copia todo o código do monorepo
+# COPY . .
+
+# Expõe as portas dos apps (ajuste conforme necessário)
+# EXPOSE 3000
+
+# Comando padrão para desenvolvimento (turbo dev)
+# CMD ["pnpm", "dev", "--filter", "web"]

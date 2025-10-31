@@ -1,0 +1,49 @@
+# Arquivo .dockerignore para o projeto
+# Ignorar dependências e artefatos de build
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dist/
+build/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# Ignorar ambiente virtual / variáveis sensíveis
+.env
+.env.*
+.venv/
+venv/
+env/
+venv.bak/
+
+# Ignorar arquivos Python/Bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Ignorar arquivos de configuração local e IDEs
+.git
+.gitignore
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Ignorar arquivos temporários e logs
+*.log
+tmp/
+temp/
+.cache/
+coverage/
+coverage.xml
+tests/
+
+# Não copiar o Dockerfile, compose e o próprio .dockerignore
+Dockerfile
+docker-compose*.yml
+.dockerignore

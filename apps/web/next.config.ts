@@ -1,7 +1,6 @@
-import { config as baseConfig } from '@workspace/next-config'
+import { config as baseConfig, withAnalyzer } from '@workspace/next-config'
 import { createMDX } from 'fumadocs-mdx/next'
 import type { NextConfig } from 'next'
-import { env } from '@/env'
 
 const withMdx = createMDX()
 
@@ -13,7 +12,6 @@ const transpilePackages = [
   '@workspace/typescript-config'
 ]
 
-// Base config
 const nextConfig: NextConfig = {
   ...baseConfig,
 
@@ -28,8 +26,4 @@ const nextConfig: NextConfig = {
   }
 }
 
-if (env.ANALYZE === 'true') {
-  // nextConfig = withAnalyzer(nextConfig)
-}
-
-export default withMdx(nextConfig)
+export default withMdx(withAnalyzer(nextConfig))

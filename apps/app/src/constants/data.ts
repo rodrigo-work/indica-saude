@@ -61,6 +61,11 @@ export const navManagementItems: NavItem[] = [
 
 export const navUserProfileItems: NavItem[] = [
   {
+    title: 'Profile',
+    url: '/dashboard/profile',
+    icon: 'user'
+  },
+  {
     title: 'Account',
     url: '/dashboard/settings/account',
     icon: 'userPen'

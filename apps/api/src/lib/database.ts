@@ -1,3 +1,3 @@
-import { PrismaClient } from '@workspace/database/client'
+import { PrismaClient as database } from '@workspace/database/client'
 
-export const database = new PrismaClient()
+export { database }

@@ -7,19 +7,31 @@ import { jwtVerify } from 'jose'
 import { env } from '../env.js'
 import { database } from '../lib/database.js'
 import { JWKS } from '../lib/jwks.js'
+import { logger } from '../lib/logger.js'
+import type {
+  AuthenticatedUser,
+  CognitoJwtPayload,
+  CognitoUserAttributes,
+  Role
+} from '../types/domain.types.js'
 
-const ISSUER = env.COGNITO_ISSUER
+// const ISSUER = env.COGNITO_ISSUER
 const AUDIENCE = env.COGNITO_AUDIENCE
 
 const cognitoClient = new CognitoIdentityProviderClient({ region: env.COGNITO_REGION })
 
-async function getUserAttributes(accessToken: string) {
+async function getUserAttributes(accessToken: string): Promise<CognitoUserAttributes> {
   const command = new GetUserCommand({ AccessToken: accessToken })
   const response = await cognitoClient.send(command)
 
-  const attributes: Record<string, string> = {}
+  const attributes: CognitoUserAttributes = {
+    email: ''
+  }
+
   response.UserAttributes?.forEach((attr) => {
-    if (attr.Name && attr.Value) attributes[attr.Name] = attr.Value
+    if (attr.Name && attr.Value) {
+      attributes[attr.Name] = attr.Value
+    }
   })
 
   return attributes
@@ -38,9 +50,9 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
 
   try {
     const { payload } = await jwtVerify(token, JWKS, {
-      // issuer: ISSUER,
+      // issuer: ISSUER
       // audience: AUDIENCE
-    })
+    }) //as { payload: CognitoJwtPayload }
 
     // Verifica tipo de token
     if (payload.token_use !== 'access') {
@@ -72,26 +84,41 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
       user = await database.user.create({
         data: {
           authProviderId: payload.sub,
-          name: `${cognitoAttrs.name} ${cognitoAttrs.family_name}`,
+          name:
+            `${cognitoAttrs.name || ''} ${cognitoAttrs.family_name || ''}`.trim() ||
+            cognitoAttrs.email,
           email: cognitoAttrs.email,
           role: 'INDICATOR'
         }
       })
     }
 
-    const User2 = {
-      ...user,
-      ...payload,
-      ...cognitoAttrs
+    // Constrói objeto de usuário autenticado tipado
+    const authenticatedUser: AuthenticatedUser = {
+      id: user.id,
+      authProviderId: user.authProviderId || payload.sub,
+      name: user.name,
+      email: user.email,
+      role: user.role as Role,
+      sub: payload.sub,
+      token_use: payload.token_use,
+      'cognito:groups': cognitoAttrs['cognito:groups'],
+      'cognito:username': cognitoAttrs['cognito:username'],
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
     }
 
-    // Anexa usuário e payload do token à request
-    req.user = User2
-    // console.log('REQ USER from authMiddleware:', req.user)
+    // Anexa usuário autenticado à request
+    req.user = authenticatedUser
+
+    logger.debug('User authenticated', {
+      userId: authenticatedUser.id,
+      role: authenticatedUser.role
+    })
 
     next()
-  } catch (_error) {
-    // console.error('Error validating token:', error)
+  } catch (error) {
+    logger.error('Error validating token', error, { token: token.substring(0, 20) + '...' })
     return next({ status: 401, message: 'Token invalid or expired' })
   }
 }

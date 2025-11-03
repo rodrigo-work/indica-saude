@@ -1,23 +1,25 @@
-import 'server-only'
-
 import { withAccelerate } from '@prisma/extension-accelerate'
-import { PrismaClient } from './generated/client'
+import { PrismaClient } from './generated/client/index.js'
+import { keys } from './keys'
 
-export const database = new PrismaClient().$extends(withAccelerate())
+const globalForPrisma = globalThis as unknown as {
+  prisma: ReturnType<typeof createPrismaClient> | undefined
+}
 
-export * from './generated/client'
+function createPrismaClient() {
+  const env = keys()
+  
+  return new PrismaClient({
+    datasourceUrl: env.DATABASE_URL,
+    // log: process.env.NODE_ENV === 'development' ? ['query', 'info', 'warn', 'error'] : ['error'],
+  }).$extends(withAccelerate())
+}
 
-// const globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
+export const database =
+  globalForPrisma.prisma ?? createPrismaClient()
 
-// export const database =
-//   globalForPrisma.prisma ||
-//   new PrismaClient({
-//     datasourceUrl: keys().DATABASE_URL
-//     // log: ['query', 'info', 'warn', 'error']
-//   }).$extends(withAccelerate())
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = database
+}
 
-// if (process.env.NODE_ENV !== 'production') {
-//   globalForPrisma.prisma = database
-// }
-
-// export * from './generated/client'
+export * from './generated/client/index.js'

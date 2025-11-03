@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: ['index.ts'],
   outDir: 'dist',
   format: ['esm'],
   target: 'ES2020',
@@ -9,5 +9,5 @@ export default defineConfig({
   clean: true,
   dts: false,
   splitting: false,
-  external: ['@workspace/database', '@prisma/client', '@prisma/extension-accelerate']
+  external: ['@prisma/client', '@prisma/extension-accelerate']
 })

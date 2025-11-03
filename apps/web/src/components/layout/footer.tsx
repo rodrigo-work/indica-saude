@@ -1,3 +1,5 @@
+import { LogoIndicaSaude } from '@workspace/about'
+import { Button } from '@workspace/ui/components/button'
 import Link from 'next/link'
 import { Logo } from '@/components/layout/logo'
 import { footerLinks } from '../../data'
@@ -8,7 +10,9 @@ export function Footer() {
       <div className="mx-auto max-w-5xl-- px-6 flex-wrap">
         <div className="grid gap-12 md:grid-cols-5">
           <div className="md:col-span-2">
-            <Logo />
+            <Button className="text-left" variant="ghost">
+              <LogoIndicaSaude />
+            </Button>{' '}
             <Link aria-label="go home" className="block size-fit" href="/"></Link>
           </div>
 

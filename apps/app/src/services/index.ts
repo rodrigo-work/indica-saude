@@ -19,8 +19,9 @@ export async function fetchApi(path: string): Promise<any> {
   )
 
   if (!response.ok) {
-    console.error('Network response was not ok', response)
-    throw new Error('Network response was not ok')
+    throw new Error(
+      `Network response was not ok, status: ${response.status}, statusText: ${response.statusText}`
+    )
   }
 
   return response.json() as Promise<any>

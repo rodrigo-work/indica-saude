@@ -143,7 +143,6 @@ export const generateStaticParams = () =>
     ...page,
     slug: [...page.slug, 'image.png']
   }))
-
 const IvonIs = () => {
   return (
     <span>
@@ -155,3 +154,4 @@ const IvonIs = () => {
     </span>
   )
 }
+

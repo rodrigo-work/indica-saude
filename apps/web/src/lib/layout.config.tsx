@@ -1,6 +1,7 @@
+import { LogoIndicaSaude } from '@workspace/about'
+import { Button } from '@workspace/ui/components/button'
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared'
 import Link from 'next/link'
-import { Logo } from '@/components/layout/logo'
 
 export const baseOptions: BaseLayoutProps = {
   links: [
@@ -35,7 +36,11 @@ export const baseOptions: BaseLayoutProps = {
     // }
   ],
   nav: {
-    title: <Logo />,
+    title: (
+      // <Button className="text-left ml-0" variant="ghost">
+      <LogoIndicaSaude />
+      // </Button>
+    ),
     transparentMode: 'none'
   }
 }

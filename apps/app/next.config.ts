@@ -1,10 +1,9 @@
-// import { withMicrofrontends } from '@vercel/microfrontends/next/config'
-// import createWithVercelToolbar from '@vercel/toolbar/plugins/next'
-import { config as baseConfig } from '@workspace/next-config'
+import {
+  config as baseConfig,
+  mergeImageRemotePatterns,
+  withAnalyzer
+} from '@workspace/next-config'
 import type { NextConfig } from 'next'
-import { env } from '@/env'
-
-// const withVercelToolbar = createWithVercelToolbar()
 
 const transpilePackages = [
   '@workspace/ui',
@@ -17,7 +16,17 @@ const transpilePackages = [
   '@workspace/typescript-config'
 ]
 
-// Base config
+const additionalImagePatterns = [
+  {
+    protocol: 'https' as const,
+    hostname: 'res.cloudinary.com'
+  },
+  {
+    protocol: 'https' as const,
+    hostname: 'iad.microlink.io'
+  }
+]
+
 const nextConfig: NextConfig = {
   ...baseConfig,
 
@@ -28,28 +37,16 @@ const nextConfig: NextConfig = {
   experimental: {
     authInterrupts: true
   },
+
   rewrites: () => Promise.resolve([]),
 
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com'
-      },
-      {
-        protocol: 'https',
-        hostname: 'iad.microlink.io'
-      }
-    ]
+    ...baseConfig.images,
+    remotePatterns: mergeImageRemotePatterns(
+      baseConfig.images?.remotePatterns,
+      additionalImagePatterns
+    )
   }
-  // other properties...
 }
 
-if (env.ANALYZE === 'true') {
-  // nextConfig = withAnalyzer(nextConfig)
-}
-
-// nextConfig = withLogging(nextConfig)
-// nextConfig = withVercelToolbar(nextConfig)
-
-export default nextConfig
+export default withAnalyzer(nextConfig)

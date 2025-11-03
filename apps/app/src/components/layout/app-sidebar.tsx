@@ -20,7 +20,7 @@ import {
   navSecondaryItems,
   navUserProfileItems
 } from '@/constants/data'
-import { IndicaSaudeIcon } from '../logo'
+import { Logo } from './logo'
 // import { useMediaQuery } from '@/hooks/use-media-query'
 import { NavMain } from './nav-main'
 import { NavSecondary } from './nav-secondary'
@@ -42,7 +42,7 @@ export default function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="sm">
-              {/* <LogoIndicaSaude /> */}
+              <Logo />
               {/* <RepoLogo /> */}
               {/* <IndicaSaudeIcon width={42} /> */}
               {/* <Link href="#">
